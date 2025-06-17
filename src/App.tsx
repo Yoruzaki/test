@@ -39,7 +39,7 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex transition-colors duration-200">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex transition-colors duration-200" dir="ltr">
           <Sidebar 
             activeTab={activeTab} 
             setActiveTab={setActiveTab}
@@ -47,7 +47,10 @@ function App() {
             setIsOpen={setSidebarOpen}
           />
           
-          <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-16'}`}>
+          <div className="flex-1 transition-all duration-300" style={{
+            marginLeft: document.documentElement.dir === 'rtl' ? 0 : (sidebarOpen ? '16rem' : '4rem'),
+            marginRight: document.documentElement.dir === 'rtl' ? (sidebarOpen ? '16rem' : '4rem') : 0
+          }}>
             <Header 
               sidebarOpen={sidebarOpen}
               setSidebarOpen={setSidebarOpen}

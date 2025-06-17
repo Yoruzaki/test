@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Arabic Font Support */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
+
+@layer base {
+  .font-arabic {
+    font-family: 'Noto Sans Arabic', 'Arial', sans-serif;
+  }
+  
+  /* RTL Support */
+  [dir="rtl"] {
+    text-align: right;
+  }
+  
+  [dir="rtl"] .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+  }
+  
+  /* Custom RTL utilities */
+  .rtl\:text-right[dir="rtl"] {
+    text-align: right;
+  }
+  
+  .rtl\:text-left[dir="rtl"] {
+    text-align: left;
+  }
+  
+  .rtl\:mr-auto[dir="rtl"] {
+    margin-right: auto;
+  }
+  
+  .rtl\:ml-auto[dir="rtl"] {
+    margin-left: auto;
+  }
+}
+
+/* Ensure proper text rendering for Arabic */
+html[lang="ar"] {
+  font-family: 'Noto Sans Arabic', 'Arial', sans-serif;
+}
+
+/* Fix for Arabic numerals */
+html[lang="ar"] .numbers {
+  font-feature-settings: "lnum";
+}
+
+/* Smooth transitions for direction changes */
+* {
+  transition: margin 0.3s ease, padding 0.3s ease;
+}

@@ -25,7 +25,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isOpen, 
   setIsOpen 
 }) => {
-  const { t } = useLanguage();
+  const { t, isRTL } = useLanguage();
 
   const menuItems = [
     { id: 'dashboard', label: t('nav.dashboard'), icon: BarChart3 },
@@ -38,16 +38,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   return (
-    <aside className={`fixed left-0 top-0 h-full bg-white dark:bg-gray-800 shadow-lg z-40 transition-all duration-300 border-r dark:border-gray-700 ${
+    <aside className={`fixed ${isRTL ? 'right-0' : 'left-0'} top-0 h-full bg-white dark:bg-gray-800 shadow-lg z-40 transition-all duration-300 border-${isRTL ? 'l' : 'r'} dark:border-gray-700 ${
       isOpen ? 'w-64' : 'w-16'
     }`}>
       <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
-        <div className={`flex items-center space-x-3 ${!isOpen && 'justify-center'}`}>
+        <div className={`flex items-center ${isRTL ? 'space-x-reverse space-x-3' : 'space-x-3'} ${!isOpen && 'justify-center'}`}>
           <Milk className="h-8 w-8 text-blue-600" />
           {isOpen && (
-            <div>
-              <h1 className="text-xl font-bold text-gray-800 dark:text-white">DairyFlow</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Gestion Laitière</p>
+            <div className={isRTL ? 'text-right' : 'text-left'}>
+              <h1 className={`text-xl font-bold text-gray-800 dark:text-white ${isRTL ? 'font-arabic' : ''}`}>DairyFlow</h1>
+              <p className={`text-sm text-gray-500 dark:text-gray-400 ${isRTL ? 'font-arabic' : ''}`}>
+                {isRTL ? 'إدارة الألبان' : 'Gestion Laitière'}
+              </p>
             </div>
           )}
         </div>
@@ -68,16 +70,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`w-full flex items-center space-x-3 px-3 py-3 rounded-lg mb-1 transition-all duration-200 ${
+              className={`w-full flex items-center ${isRTL ? 'space-x-reverse space-x-3' : 'space-x-3'} px-3 py-3 rounded-lg mb-1 transition-all duration-200 ${
                 isActive
-                  ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-r-2 border-blue-600'
+                  ? `bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-${isRTL ? 'l' : 'r'}-2 border-blue-600`
                   : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white'
               } ${!isOpen && 'justify-center'}`}
               title={!isOpen ? item.label : ''}
+              dir={isRTL ? 'rtl' : 'ltr'}
             >
-              <Icon className={`h-5 w-5 ${isActive ? 'text-blue-600 dark:text-blue-400' : ''}`} />
+              <Icon className={`h-5 w-5 ${isActive ? 'text-blue-600 dark:text-blue-400' : ''} ${isRTL && !isOpen ? 'ml-0' : ''}`} />
               {isOpen && (
-                <span className={`font-medium ${isActive ? 'text-blue-700 dark:text-blue-300' : ''}`}>
+                <span className={`font-medium ${isActive ? 'text-blue-700 dark:text-blue-300' : ''} ${isRTL ? 'font-arabic text-right' : ''}`}>
                   {item.label}
                 </span>
               )}

@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-type Language = 'fr' | 'en';
+type Language = 'fr' | 'en' | 'ar';
 
 interface LanguageContextType {
   language: Language;
-  toggleLanguage: () => void;
+  setLanguage: (lang: Language) => void;
   t: (key: string) => string;
+  isRTL: boolean;
 }
 
 const translations = {
@@ -272,6 +273,138 @@ const translations = {
     'common.success': 'Success',
     'common.warning': 'Warning',
     'common.info': 'Information',
+  },
+  ar: {
+    // Navigation
+    'nav.dashboard': 'لوحة التحكم',
+    'nav.production': 'الإنتاج',
+    'nav.inventory': 'المخزون',
+    'nav.quality': 'الجودة',
+    'nav.orders': 'الطلبات',
+    'nav.reports': 'التقارير',
+    'nav.settings': 'الإعدادات',
+    
+    // Header
+    'header.title': 'نظام إدارة مصنع الألبان',
+    'header.search': 'بحث...',
+    'header.user': 'مريم دوبوا',
+    'header.role': 'مدير الإنتاج',
+    
+    // Dashboard
+    'dashboard.title': 'لوحة التحكم',
+    'dashboard.updated': 'آخر تحديث',
+    'dashboard.dailyProduction': 'الإنتاج اليومي',
+    'dashboard.activeOrders': 'الطلبات النشطة',
+    'dashboard.qualityCompliance': 'مطابقة الجودة',
+    'dashboard.revenue': 'الإيرادات',
+    'dashboard.vsYesterday': 'مقارنة بالأمس',
+    'dashboard.todayProduction': 'إنتاج اليوم',
+    'dashboard.recentActivity': 'النشاط الأخير',
+    'dashboard.quickActions': 'إجراءات سريعة',
+    'dashboard.newProduction': 'إنتاج جديد',
+    'dashboard.manageStock': 'إدارة المخزون',
+    'dashboard.qualityControl': 'مراقبة الجودة',
+    'dashboard.manageTeams': 'إدارة الفرق',
+    
+    // Production
+    'production.title': 'إدارة الإنتاج',
+    'production.newProduction': 'إنتاج جديد',
+    'production.exportData': 'تصدير البيانات',
+    'production.productionLines': 'خطوط الإنتاج',
+    'production.running': 'قيد التشغيل',
+    'production.paused': 'متوقف مؤقتاً',
+    'production.maintenance': 'صيانة',
+    'production.temperature': 'درجة الحرارة',
+    'production.pressure': 'الضغط',
+    'production.speed': 'السرعة',
+    'production.efficiency': 'الكفاءة',
+    'production.schedule': 'جدول الإنتاج',
+    'production.completed': 'مكتمل',
+    'production.inProgress': 'قيد التنفيذ',
+    'production.planned': 'مخطط',
+    
+    // Inventory
+    'inventory.title': 'إدارة المخزون',
+    'inventory.addItem': 'إضافة عنصر',
+    'inventory.fullInventory': 'جرد كامل',
+    'inventory.totalItems': 'إجمالي العناصر',
+    'inventory.lowStock': 'مخزون منخفض',
+    'inventory.totalValue': 'القيمة الإجمالية',
+    'inventory.lastUpdate': 'آخر تحديث',
+    'inventory.all': 'الكل',
+    'inventory.rawMaterials': 'المواد الخام',
+    'inventory.finishedProducts': 'المنتجات النهائية',
+    'inventory.packaging': 'التعبئة والتغليف',
+    'inventory.searchItem': 'البحث عن عنصر...',
+    'inventory.normal': 'عادي',
+    'inventory.high': 'مخزون عالي',
+    'inventory.low': 'مخزون منخفض',
+    
+    // Quality Control
+    'quality.title': 'مراقبة الجودة',
+    'quality.newTest': 'اختبار جديد',
+    'quality.qualityReport': 'تقرير الجودة',
+    'quality.totalTests': 'إجمالي الاختبارات',
+    'quality.compliant': 'مطابق',
+    'quality.nonCompliant': 'غير مطابق',
+    'quality.pending': 'في الانتظار',
+    'quality.microbiological': 'ميكروبيولوجي',
+    'quality.physicochemical': 'فيزيائي كيميائي',
+    'quality.sensory': 'حسي',
+    'quality.allTests': 'جميع الاختبارات',
+    'quality.viewReport': 'عرض التقرير',
+    'quality.validateResults': 'التحقق من النتائج',
+    
+    // Orders
+    'orders.title': 'إدارة الطلبات',
+    'orders.newOrder': 'طلب جديد',
+    'orders.export': 'تصدير',
+    'orders.totalOrders': 'إجمالي الطلبات',
+    'orders.revenue': 'الإيرادات',
+    'orders.pending': 'في الانتظار',
+    'orders.urgent': 'عاجل',
+    'orders.all': 'الكل',
+    'orders.processing': 'قيد المعالجة',
+    'orders.shipped': 'تم الشحن',
+    'orders.delivered': 'تم التسليم',
+    'orders.viewDetails': 'عرض التفاصيل',
+    'orders.processOrder': 'معالجة الطلب',
+    'orders.markShipped': 'تحديد كمشحون',
+    
+    // Reports
+    'reports.title': 'التقارير والتحليلات',
+    'reports.exportPDF': 'تصدير PDF',
+    'reports.scheduleReport': 'جدولة التقرير',
+    'reports.production': 'الإنتاج',
+    'reports.sales': 'المبيعات',
+    'reports.inventory': 'المخزون',
+    'reports.quality': 'الجودة',
+    'reports.thisWeek': 'هذا الأسبوع',
+    'reports.thisMonth': 'هذا الشهر',
+    'reports.thisQuarter': 'هذا الربع',
+    'reports.thisYear': 'هذا العام',
+    
+    // Settings
+    'settings.title': 'إعدادات النظام',
+    'settings.save': 'حفظ',
+    'settings.general': 'عام',
+    'settings.users': 'المستخدمون',
+    'settings.notifications': 'الإشعارات',
+    'settings.security': 'الأمان',
+    'settings.system': 'النظام',
+    'settings.database': 'قاعدة البيانات',
+    
+    // Common
+    'common.edit': 'تعديل',
+    'common.delete': 'حذف',
+    'common.cancel': 'إلغاء',
+    'common.confirm': 'تأكيد',
+    'common.close': 'إغلاق',
+    'common.loading': 'جاري التحميل...',
+    'common.error': 'خطأ',
+    'common.success': 'نجح',
+    'common.warning': 'تحذير',
+    'common.info': 'معلومات',
   }
 };
 
@@ -282,25 +415,27 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem('language') as Language;
-    if (savedLanguage) {
+    if (savedLanguage && ['fr', 'en', 'ar'].includes(savedLanguage)) {
       setLanguage(savedLanguage);
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('language', language);
+    
+    // Set document direction and language
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = language;
   }, [language]);
-
-  const toggleLanguage = () => {
-    setLanguage(prev => prev === 'fr' ? 'en' : 'fr');
-  };
 
   const t = (key: string): string => {
     return translations[language][key] || key;
   };
 
+  const isRTL = language === 'ar';
+
   return (
-    <LanguageContext.Provider value={{ language, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, isRTL }}>
       {children}
     </LanguageContext.Provider>
   );
