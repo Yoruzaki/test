@@ -35,10 +35,29 @@
   .rtl\:ml-auto[dir="rtl"] {
     margin-left: auto;
   }
+
+  /* Fix for mobile responsiveness */
+  @media (max-width: 1024px) {
+    .sidebar-mobile {
+      transform: translateX(-100%);
+    }
+    
+    [dir="rtl"] .sidebar-mobile {
+      transform: translateX(100%);
+    }
+    
+    .sidebar-mobile.open {
+      transform: translateX(0);
+    }
+  }
 }
 
 /* Ensure proper text rendering for Arabic */
 html[lang="ar"] {
+  font-family: 'Noto Sans Arabic', 'Arial', sans-serif;
+}
+
+html.font-arabic {
   font-family: 'Noto Sans Arabic', 'Arial', sans-serif;
 }
 
@@ -50,4 +69,35 @@ html[lang="ar"] .numbers {
 /* Smooth transitions for direction changes */
 * {
   transition: margin 0.3s ease, padding 0.3s ease;
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 640px) {
+  .mobile-hide {
+    display: none;
+  }
+  
+  .mobile-text-sm {
+    font-size: 0.875rem;
+  }
+  
+  .mobile-p-2 {
+    padding: 0.5rem;
+  }
+}
+
+/* RTL specific fixes */
+[dir="rtl"] .flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+  margin-right: calc(var(--tw-space-x) * var(--tw-space-x-reverse));
+  margin-left: calc(var(--tw-space-x) * calc(1 - var(--tw-space-x-reverse)));
+}
+
+/* Arabic number formatting */
+.arabic-numbers {
+  font-variant-numeric: lining-nums;
 }
